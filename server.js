@@ -4,6 +4,8 @@ import cors from 'cors';
 import { memberschem } from './member.js';
 import { audioschem } from './audio.js';
 import { upload } from './audiofile.js';
+import { transporter } from './email.js';
+import bcrypt from 'bcryptjs';
 const app = express();
 const PORT = process.env.PORT || 5000;
 
@@ -16,21 +18,59 @@ app.use(cors());
 app.use(express.json());
 app.use('/audio', express.static('uploads/audio'));
 
-
+let otpcheck=0;
+let sendmem;
 const member=async (req,res)=>{
-const{name,email,message,instrument,year,Branch,contact}=req.body;
-const data={name,email,message,instrument,Branch,year,contact};
-const sendmember=new memberschem(data);
-await sendmember.save();
+const{name,email,message,contact,year,Branch,instrument}=req.body;
+const data={name,email,message,instrument,contact,year,Branch};
+const checkmember=memberschem.findOne({email});
+if(checkmember){
+  res.json({code:0});
+  return;
+}
+else{
+  const sendmember=new memberschem(data);
+  sendmem=sendmember;
+      const otp = Math.floor(100000 + Math.random() * 900000).toString();
+      otpcheck=otp;
+    
+  const otpsend={from:"ap4866017@gmail.com",
+        to:email,
+        subject:"Email verification from Swar ",
+        text:'Your verification code is: ${otp}. It will expire in 10 minutes.'
+  }
+  try{
+  await transporter.sendMail(otpsend);
+  res.json({code:1,text:"verification code send successfully to your email"});
+  
+  }
+  catch(error){
+    res.json({text:"error in crearing account"});
 
-res.send("data received");
-console.log(req.body);
+  }
 
 
-
+}
 } 
 
 app.post('/membership', member);
+
+const verifing=async (req,res)=>{
+   app.use(cors());
+   const {code}=req.body;
+   if(code===otpcheck){
+    await sendmem.save();
+    res.json({text:"your emailhas been verified successfully and your response has been recorded "});
+    return;
+   }
+   else{
+    res.json({text:"entered otp is wrong please enter the correct otp or try again"});
+    return;
+   }
+
+
+}
+app.post('/verify',verifing);
 
 
 const audio=async(req,res)=>{

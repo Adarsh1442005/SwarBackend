@@ -23,7 +23,7 @@ let sendmem;
 const member=async (req,res)=>{
 const{name,email,message,contact,year,Branch,instrument}=req.body;
 const data={name,email,message,instrument,contact,year,Branch};
-const checkmember=memberschem.findOne({email});
+const checkmember=await memberschem.findOne({email});
 if(checkmember){
   res.json({code:0});
   return;

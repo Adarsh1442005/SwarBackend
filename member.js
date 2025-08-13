@@ -17,6 +17,21 @@ const memberSchema = new mongoose.Schema({
     default: '',
     trim: true,
   },
+  Branch:{
+    type:String,
+    required:true,
+    trim: true
+  },
+  contact:{
+    type:String,
+    required:true,
+    trim: true
+  },
+  year:{
+    type:String,
+    required:true,
+    trim:true
+  },
   instrument: {
     type: String,
     required: true,

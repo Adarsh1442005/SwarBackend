@@ -18,8 +18,8 @@ app.use('/audio', express.static('uploads/audio'));
 
 
 const member=async (req,res)=>{
-const{name,email,message,instrument,avatar}=req.body;
-const data={name,email,message,instrument,avatar};
+const{name,email,message,instrument,year,Branch,contact}=req.body;
+const data={name,email,message,instrument,Branch,year,contact};
 const sendmember=new memberschem(data);
 await sendmember.save();
 

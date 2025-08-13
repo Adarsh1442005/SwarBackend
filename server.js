@@ -37,7 +37,7 @@ else{
   const otpsend={from:"ap4866017@gmail.com",
         to:email,
         subject:"Email verification from Swar ",
-        text:'Your verification code is: ${otp}. It will expire in 10 minutes.'
+        text: `Your verification code is: ${otp}. It will expire in 10 minutes.`
   }
   try{
   await transporter.sendMail(otpsend);

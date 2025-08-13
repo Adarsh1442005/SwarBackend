@@ -35,7 +35,7 @@ const memberSchema = new mongoose.Schema({
   instrument: {
     type: String,
     required: true,
-    enum: ['Guitar', 'Piano', 'Violin', 'Vocals', 'Tabla', 'Other'], // customize as needed
+     // customize as needed
   },
  
 }, { timestamps: true });

@@ -37,10 +37,7 @@ const memberSchema = new mongoose.Schema({
     required: true,
     enum: ['Guitar', 'Piano', 'Violin', 'Vocals', 'Tabla', 'Other'], // customize as needed
   },
-  avatar: {
-    type: String, // file path or URL
-    default: '',
-  },
+ 
 }, { timestamps: true });
 
 export const memberschem=mongoose.model('Member', memberSchema);

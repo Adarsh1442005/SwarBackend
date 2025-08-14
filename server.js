@@ -89,7 +89,7 @@ const messages=async (req,res)=>{
 }
 
 app.get("/message",messages);
-const admin=(req,res)=>{
+const adm=(req,res)=>{
   if(req.body.password===admincode){
     res.json({code:1});
   }
@@ -98,7 +98,7 @@ const admin=(req,res)=>{
   }
 
 }
-app.post("/admin",admin);
+app.post("/admin",adm);
 
 
 const audio=async(req,res)=>{

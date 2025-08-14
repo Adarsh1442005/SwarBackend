@@ -8,6 +8,7 @@ import { transporter } from './email.js';
 import bcrypt from 'bcryptjs';
 const app = express();
 const PORT = process.env.PORT || 5000;
+const admincode="swar60077";
 
 // Replace this with your actual MongoDB URI
 const mongoURI = 'mongodb+srv://aadi:Adarsh1442005@cluster0.nc0yl.mongodb.net/Swar?retryWrites=true&w=majority&appName=Cluster0'
@@ -90,7 +91,8 @@ const messages=async (req,res)=>{
 
 app.get("/message",messages);
 const adm=(req,res)=>{
-  if(req.body.password===admincode){
+  const{password}=req.body;
+  if(password===admincode){
     res.json({code:1});
   }
   else{

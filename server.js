@@ -88,7 +88,17 @@ const messages=async (req,res)=>{
 
 }
 
-app.get("/message",messages)
+app.get("/message",messages);
+const admin=(req,res)=>{
+  if(req.body.password===admincode){
+    res.json({code:1});
+  }
+  else{
+    res.json({code:0});
+  }
+
+}
+app.post("/admin",admin);
 
 
 const audio=async(req,res)=>{

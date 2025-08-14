@@ -71,6 +71,24 @@ const verifing=async (req,res)=>{
 
 }
 app.post('/verify',verifing);
+const messages=async (req,res)=>{
+  try{
+      const member=await memberschem.find();
+      res.json(member);
+  }
+  catch(error){
+    console.log("error in fetching the data");
+    
+
+  }
+
+
+
+
+
+}
+
+app.get("/message",messages)
 
 
 const audio=async(req,res)=>{

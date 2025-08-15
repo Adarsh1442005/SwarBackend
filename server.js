@@ -11,7 +11,7 @@ const PORT = process.env.PORT || 5000;
 const admincode="swar60077";
 
 // Replace this with your actual MongoDB URI
-const mongoURI = 'mongodb+srv://aadi:Adarsh1442005@cluster0.nc0yl.mongodb.net/Swar?retryWrites=true&w=majority&appName=Cluster0'
+const mongoURI = 'mongodb+srv://aadi:Ada144@com@cluster0.nc0yl.mongodb.net/Swar?retryWrites=true&w=majority&appName=Cluster0'
 // Or for Atlas:
 // const mongoURI = 'mongodb+srv://<username>:<password>@cluster0.mongodb.net/swar-music?retryWrites=true&w=majority';
 

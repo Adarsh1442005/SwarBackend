@@ -61,11 +61,11 @@ const verifing=async (req,res)=>{
    const {code}=req.body;
    if(code===otpcheck){
     await sendmem.save();
-    res.json({code:1,text:"your emailhas been verified successfully and your response has been recorded",code:11});
+    res.json({code:1,text:"your emailhas been verified successfully and your response has been recorded"});
     return;
    }
    else{
-    res.json({code:-1,text:"entered otp is wrong please enter the correct otp or try again",code:12});
+    res.json({code:-1,text:"entered otp is wrong please enter the correct otp or try again"});
     return;
    }
 

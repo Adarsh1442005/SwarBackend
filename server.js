@@ -101,6 +101,19 @@ const adm=(req,res)=>{
 
 }
 app.post("/admin",adm);
+const adminb=(req,res)=>{
+ if(req.body.password===admincode){
+  res.json({code:1});
+ }
+ else{
+  res.json({code:0});
+ }
+
+
+
+}
+app.post("/audioadmin",adminb);
+
 
 
 const audio=async(req,res)=>{

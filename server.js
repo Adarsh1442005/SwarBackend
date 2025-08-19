@@ -72,6 +72,7 @@ const verifing=async (req,res)=>{
     await sendmember.save();
     res.json({code :1 ,text:"your emailhas been verified successfully and your response has been recorded "});
     sendmem.delete(email); 
+     otpStore.delete(email);
     return;
    }
   else{

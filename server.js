@@ -19,7 +19,7 @@ app.use(cors());
 app.use(express.json());
 app.use('/audio', express.static('uploads/audio'));
 
-let otpcheck=0;
+const otpStore = new Map();
 let sendmem;
 const member=async (req,res)=>{
 const{name,email,message,contact,year,Branch,instrument}=req.body;
@@ -33,7 +33,8 @@ else{
   const sendmember=new memberschem(data);
   sendmem=sendmember;
       const otp = Math.floor(100000 + Math.random() * 900000).toString();
-      otpcheck=otp;
+       otpStore.set(email,{otp});
+    
     
   const otpsend={from:"ap4866017@gmail.com",
         to:email,
@@ -58,16 +59,27 @@ app.post('/membership', member);
 
 const verifing=async (req,res)=>{
    app.use(cors());
-   const {code}=req.body;
-   if(code===otpcheck){
+   const {code,email}=req.body;
+  const store=otpStore.get(email);
+   if(!store){
+    
+    res.json({code : -1,text:"entered otp is wrong please enter the correct otp or try again"});
+    return;
+   
+
+   }
+   else if(store.otp===code){
     await sendmem.save();
-    res.json({code:1,text:"your emailhas been verified successfully and your response has been recorded"});
+    res.json({code :1 ,text:"your emailhas been verified successfully and your response has been recorded "});
     return;
    }
-   else{
-    res.json({code:-1,text:"entered otp is wrong please enter the correct otp or try again"});
-    return;
-   }
+  else{
+    res.json({code:-1, text:"you have entered wrong OTP please try again.."});
+    
+  }
+  
+    
+   
 
 
 }

@@ -71,6 +71,7 @@ const verifing=async (req,res)=>{
       const sendmember=new memberschem(sendmem.get(email));
     await sendmember.save();
     res.json({code :1 ,text:"your emailhas been verified successfully and your response has been recorded "});
+    sendmem.delete(email); 
     return;
    }
   else{

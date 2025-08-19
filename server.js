@@ -20,7 +20,7 @@ app.use(express.json());
 app.use('/audio', express.static('uploads/audio'));
 
 const otpStore = new Map();
-let sendmem;
+let sendmem=new Map();
 const member=async (req,res)=>{
 const{name,email,message,contact,year,Branch,instrument}=req.body;
 const data={name,email,message,instrument,contact,year,Branch};
@@ -30,8 +30,7 @@ if(checkmember){
   return;
 }
 else{
-  const sendmember=new memberschem(data);
-  sendmem=sendmember;
+    sendmem.set(email,data);
       const otp = Math.floor(100000 + Math.random() * 900000).toString();
        otpStore.set(email,{otp});
     
@@ -69,7 +68,8 @@ const verifing=async (req,res)=>{
 
    }
    else if(store.otp===code){
-    await sendmem.save();
+      const sendmember=new memberschem(sendmem.get(email));
+    await sendmember.save();
     res.json({code :1 ,text:"your emailhas been verified successfully and your response has been recorded "});
     return;
    }

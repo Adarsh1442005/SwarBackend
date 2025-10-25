@@ -21,9 +21,10 @@ app.use('/audio', express.static('uploads/audio'));
 
 const otpStore = new Map();
 let sendmem=new Map();
+
 const member=async (req,res)=>{
 const{name,email,message,contact,year,Branch,instrument}=req.body;
-  console.log("data received from membership");
+console.log("data received")
 const data={name,email,message,instrument,contact,year,Branch};
 const checkmember=await memberschem.findOne({email});
 if(checkmember){
@@ -31,24 +32,24 @@ if(checkmember){
   return;
 }
 else{
-    sendmem.set(email,data);
+  sendmem.set(email,data);
+
+  
       const otp = Math.floor(100000 + Math.random() * 900000).toString();
-       otpStore.set(email,{otp});
-    
+    otpStore.set(email,otp);
     
   const otpsend={from:"ap4866017@gmail.com",
         to:email,
         subject:"Email verification from Swar ",
-        text: `Your verification code is: ${otp}. It will expire in 10 minutes.`
+        text:'Your verification code is: ${otp}. It will expire in 10 minutes.'
   }
   try{
   await transporter.sendMail(otpsend);
-    console.log("otp send successfully");
+  console.log("otp send");
   res.json({code:1,text:"verification code send successfully to your email"});
   
   }
   catch(error){
-    console.log(" there is error in creating the acoount");
     res.json({text:"error in crearing account"});
 
   }
@@ -62,7 +63,7 @@ app.post('/membership', member);
 const verifing=async (req,res)=>{
    app.use(cors());
    const {code,email}=req.body;
-  const store=otpStore.get(email);
+   const store=otpStore.get(email);
    if(!store){
     
     res.json({code : -1,text:"entered otp is wrong please enter the correct otp or try again"});
@@ -70,25 +71,24 @@ const verifing=async (req,res)=>{
    
 
    }
-   else if(store.otp===code){
-      const sendmember=new memberschem(sendmem.get(email));
+    
+    
+   else {
+    const sendmember=new memberschem(sendmem.get(email));
     await sendmember.save();
     res.json({code :1 ,text:"your emailhas been verified successfully and your response has been recorded "});
-    sendmem.delete(email); 
-     otpStore.delete(email);
+    sendmem.delete(email);
+    otpStore.delete(email);
+
     return;
    }
-  else{
-    res.json({code:-1, text:"you have entered wrong OTP please try again.."});
-    
-  }
-  
-    
    
 
 
 }
 app.post('/verify',verifing);
+
+
 const messages=async (req,res)=>{
   try{
       const member=await memberschem.find();
@@ -106,10 +106,12 @@ const messages=async (req,res)=>{
 
 }
 
-app.get("/message",messages);
-const adm=(req,res)=>{
-  const{password}=req.body;
-  if(password===admincode){
+app.get("/message",messages)
+
+
+const admin=(req,res)=>{
+  if(req.body.password===admincode){
+    console.log(req.body.password);
     res.json({code:1});
   }
   else{
@@ -117,7 +119,7 @@ const adm=(req,res)=>{
   }
 
 }
-app.post("/admin",adm);
+app.post("/admin",admin);
 const adminb=(req,res)=>{
  if(req.body.password===admincode){
   res.json({code:1});
@@ -130,7 +132,6 @@ const adminb=(req,res)=>{
 
 }
 app.post("/audioadmin",adminb);
-
 
 
 const audio=async(req,res)=>{
@@ -147,6 +148,7 @@ const audio=async(req,res)=>{
 
 
 }
+
 
 app.post('/upload-audio', upload.single('audio'),audio);
 

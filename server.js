@@ -23,6 +23,7 @@ const otpStore = new Map();
 let sendmem=new Map();
 const member=async (req,res)=>{
 const{name,email,message,contact,year,Branch,instrument}=req.body;
+  console.log("data received from membership");
 const data={name,email,message,instrument,contact,year,Branch};
 const checkmember=await memberschem.findOne({email});
 if(checkmember){
@@ -42,10 +43,12 @@ else{
   }
   try{
   await transporter.sendMail(otpsend);
+    console.log("otp send successfully");
   res.json({code:1,text:"verification code send successfully to your email"});
   
   }
   catch(error){
+    console.log(" there is error in creating the acoount");
     res.json({text:"error in crearing account"});
 
   }
